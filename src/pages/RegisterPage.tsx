@@ -11,10 +11,13 @@ const RegisterPage = () => {
     lastName: Yup.string().required("Please provide a last name"),
     email: Yup.string().email().required("Please provide a valid email"),
     password: Yup.string().required("Please provide a password"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
+    password_confirmation: Yup.string().when("password", {
+      is: (val: any) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both password need to be the same"
+      ),
+    }),
   });
 
   const formik = useFormik({
@@ -142,6 +145,9 @@ const RegisterPage = () => {
                   onChange={formik.handleChange}
                   value={formik.values.password_confirmation}
                 />
+                <span className="text-red-500 text-center">
+                  {formik.errors.password_confirmation}
+                </span>
               </div>
 
               <button
