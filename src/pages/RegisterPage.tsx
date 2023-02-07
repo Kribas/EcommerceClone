@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Formik, Field, Form, ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios, { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,13 +41,15 @@ const RegisterPage = () => {
           password: password,
         })
         .then((result) => {
-          toast.success("User Registered Successfuly", {
+          toast.success(result.data.message, {
             position: toast.POSITION.TOP_RIGHT,
           });
+          setTimeout(() => {
+            window.location.href = "/";
+          }, Number("2000"));
         })
-        .catch((error: AxiosError) => {
-          console.log(error);
-          toast.error("User Registration Unsuccessful", {
+        .catch((error) => {
+          toast.error(error.response.data.message, {
             position: toast.POSITION.TOP_RIGHT,
           });
         });

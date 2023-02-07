@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { Formik, Field, Form, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const cookies = new Cookies();
@@ -33,15 +34,27 @@ const LoginPage = () => {
         },
       };
       resetForm();
-      axios(configuration).then((result) => {
-        // set the cookie
-        cookies.set("TOKEN", result.data.token, {
-          path: "/",
-        }),
-          (window.location.href = "/home");
-      });
+      axios(configuration)
+        .then((result) => {
+          // set the cookie
+          cookies.set("TOKEN", result.data.token, {
+            path: "/",
+          }),
+            toast.success(result.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          setTimeout(() => {
+            window.location.href = "/home";
+          }, Number("2000"));
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        });
     },
   });
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="px-6 md:h-screen text-gray-800">
@@ -87,22 +100,6 @@ const LoginPage = () => {
                 ) : null}
               </div>
 
-              <div className="flex items-start mb-3">
-                <div className="flex items-center h-5">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                    id="rememberme"
-                  />
-                  <label
-                    className="font-light text-gray-500 dark:text-gray-300 mx-3"
-                    htmlFor="rememberme"
-                  >
-                    Remember me
-                  </label>
-                </div>
-              </div>
-
               <div className="text-center lg:text-left">
                 <button
                   type="submit"
@@ -121,6 +118,9 @@ const LoginPage = () => {
                 </p>
               </div>
             </form>
+            <>
+              <ToastContainer />
+            </>
           </div>
         </div>
       </div>
