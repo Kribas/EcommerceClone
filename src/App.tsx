@@ -11,6 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
+import "react-toastify/dist/ReactToastify.css";
 
 const promise = loadStripe(`${import.meta.env.STRIPE_PUBLIC_KEY}`);
 

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegisterPage = () => {
-  const [register, setRegister] = useState(false);
-  const navigate = useNavigate();
-
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required("Please provide a first name"),
     lastName: Yup.string().required("Please provide a last name"),
@@ -25,11 +23,13 @@ const RegisterPage = () => {
       lastName: "",
       email: "",
       password: "",
+      password_confirmation: "",
     },
     validationSchema: RegisterSchema,
 
     onSubmit: (values, { resetForm }) => {
-      const { firstName, lastName, email, password } = values;
+      const { firstName, lastName, email, password, password_confirmation } =
+        values;
       resetForm();
       axios
         .post("http://localhost:3000/register", {
@@ -39,12 +39,19 @@ const RegisterPage = () => {
           password: password,
         })
         .then((result) => {
-          setRegister(true);
-          console.log(result);
+          toast.success("User Registered Successfuly", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
         })
-        .catch((error) => (error = new Error()));
+        .catch((error: AxiosError) => {
+          console.log(error);
+          toast.error("User Registration Unsuccessful", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        });
     },
   });
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -114,7 +121,7 @@ const RegisterPage = () => {
                   name="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   type="password"
-                  placeholder="Enter Password"
+                  placeholder="Password"
                   onChange={formik.handleChange}
                   value={formik.values.password}
                 />
@@ -123,6 +130,18 @@ const RegisterPage = () => {
                     {formik.errors.password}
                   </div>
                 ) : null}
+              </div>
+
+              <div>
+                <input
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  type="password"
+                  placeholder="Confirm Password"
+                  onChange={formik.handleChange}
+                  value={formik.values.password_confirmation}
+                />
               </div>
 
               <button
@@ -140,12 +159,10 @@ const RegisterPage = () => {
                   Login here
                 </Link>
               </p>
-              {register && (
-                <p className="text-green-600 text-center">
-                  You are registered successfully
-                </p>
-              )}
             </form>
+            <>
+              <ToastContainer />
+            </>
           </div>
         </div>
       </div>
