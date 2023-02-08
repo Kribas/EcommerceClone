@@ -1,10 +1,11 @@
-import React, { SyntheticEvent, useState } from "react";
-import { Formik, Field, Form, ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import { useMutation } from "react-query";
+import { SignInUserType } from "../types/AuthUserTypes";
+import { signInUserFn } from "../api/authApi";
 
 const LoginPage = () => {
   const cookies = new Cookies();
@@ -17,6 +18,29 @@ const LoginPage = () => {
     password: Yup.string().required("Please provide a password"),
   });
 
+  const { mutateAsync } = useMutation(
+    (userData: SignInUserType) => signInUserFn(userData),
+    {
+      onSuccess(data) {
+        // set the cookie
+        cookies.set("TOKEN", data.token, {
+          path: "/",
+        });
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, Number("2000"));
+      },
+      onError(error: any) {
+        toast.error(error.response?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      },
+    }
+  );
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,34 +48,8 @@ const LoginPage = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: (values, { resetForm }) => {
-      const { email, password } = values;
-      const configuration = {
-        method: "post",
-        url: "http://localhost:3000/login",
-        data: {
-          email,
-          password,
-        },
-      };
       resetForm();
-      axios(configuration)
-        .then((result) => {
-          // set the cookie
-          cookies.set("TOKEN", result.data.token, {
-            path: "/",
-          }),
-            toast.success(result.data.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-          setTimeout(() => {
-            window.location.href = "/home";
-          }, Number("2000"));
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        });
+      mutateAsync(values);
     },
   });
 

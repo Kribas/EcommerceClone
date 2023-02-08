@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios, { AxiosError } from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { useMutation } from "react-query";
+import { signUpUserFn } from "../api/authApi";
+import { SignUpUserType } from "../types/AuthUserTypes";
 
 const RegisterPage = () => {
   const RegisterSchema = Yup.object().shape({
@@ -18,6 +20,24 @@ const RegisterPage = () => {
       ),
     }),
   });
+  const { mutateAsync } = useMutation(
+    (userData: SignUpUserType) => signUpUserFn(userData),
+    {
+      onSuccess(data) {
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.href = "/";
+        }, Number("2000"));
+      },
+      onError(error: any) {
+        toast.error(error.response?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      },
+    }
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -30,29 +50,8 @@ const RegisterPage = () => {
     validationSchema: RegisterSchema,
 
     onSubmit: (values, { resetForm }) => {
-      const { firstName, lastName, email, password, password_confirmation } =
-        values;
       resetForm();
-      axios
-        .post("http://localhost:3000/register", {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        })
-        .then((result) => {
-          toast.success(result.data.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          setTimeout(() => {
-            window.location.href = "/";
-          }, Number("2000"));
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        });
+      mutateAsync(values);
     },
   });
 

@@ -1,5 +1,5 @@
 import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
-import axios from "../axios";
+import axios from "../api/axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem";
