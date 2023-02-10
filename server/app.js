@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const User = require("./db/userModel");
 const jwt = require("jsonwebtoken");
 const auth = require("./auth");
+const router = express.Router();
 
 // require the database
 const dbConnect = require("./db/dbConnect");
@@ -138,6 +139,17 @@ app.post("/login", (request, response) => {
         e,
       });
     });
+});
+
+// get user data
+router.get("/", (request, response) => {
+  User.find((err, docs) => {
+    if (!err) {
+      response.render("user", {
+        data: docs,
+      });
+    }
+  });
 });
 
 module.exports = app;
