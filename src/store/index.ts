@@ -1,5 +1,6 @@
 import React from "react";
 import create from "zustand";
+import { AuthUserType } from "../types/AuthUserTypes";
 
 interface ProductType {
   id: number;
@@ -16,6 +17,7 @@ interface Store {
   basketItems: ProductType[];
   searchedProduct: ProductType[];
   showSearchBar: boolean;
+  authUser: AuthUserType[];
 }
 
 const useStore = create<Store>((set, get) => ({
@@ -23,6 +25,7 @@ const useStore = create<Store>((set, get) => ({
   productData: [],
   searchedProduct: [],
   showSearchBar: true,
+  authUser: [],
 
   getProductData: (data: ProductType[]) =>
     set(() => ({
@@ -60,6 +63,12 @@ const useStore = create<Store>((set, get) => ({
     }
     set(() => ({
       basketItems: newBasket,
+    }));
+  },
+
+  setAuthUser: (user: AuthUserType[]) => {
+    set(() => ({
+      authUser: user,
     }));
   },
 }));

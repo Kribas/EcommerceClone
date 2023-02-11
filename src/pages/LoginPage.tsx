@@ -6,10 +6,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { useMutation } from "react-query";
 import { SignInUserType } from "../types/AuthUserTypes";
 import { signInUserFn } from "../api/authApi";
+import { useProductsStore } from "../store";
 
 const LoginPage = () => {
   const cookies = new Cookies();
   const navigate = useNavigate();
+
+  const setAuthUser = useProductsStore((state: any) => state.setAuthUser);
+
+  const authUser = useProductsStore((state: any) => state.authUser);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -26,6 +31,7 @@ const LoginPage = () => {
         cookies.set("TOKEN", data.token, {
           path: "/",
         });
+        // setAuthUser(data);
         toast.success(data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });

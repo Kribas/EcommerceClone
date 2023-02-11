@@ -6,6 +6,7 @@ const User = require("./db/userModel");
 const jwt = require("jsonwebtoken");
 const auth = require("./auth");
 const router = express.Router();
+const MongoClient = require("mongodb");
 
 // require the database
 const dbConnect = require("./db/dbConnect");
@@ -118,7 +119,9 @@ app.post("/login", (request, response) => {
 
           response.status(200).send({
             message: "Login Successful",
-            email: user.email,
+            userFirstName: user.firstName,
+            userLastName: user.lastName,
+            userEmail: user.email,
             token,
           });
         })
@@ -139,17 +142,6 @@ app.post("/login", (request, response) => {
         e,
       });
     });
-});
-
-// get user data
-router.get("/", (request, response) => {
-  User.find((err, docs) => {
-    if (!err) {
-      response.render("user", {
-        data: docs,
-      });
-    }
-  });
 });
 
 module.exports = app;

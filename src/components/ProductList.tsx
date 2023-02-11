@@ -49,7 +49,7 @@ const ProductList = () => {
     return (
       <>
         <div className="flex items-center justify-center h-screen">
-          <img src={loading} alt="Loading Gif" />;
+          <img src={loading} alt="Loading Gif" />
         </div>
       </>
     );

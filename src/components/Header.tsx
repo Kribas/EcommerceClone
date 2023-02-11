@@ -96,7 +96,10 @@ const Header = () => {
               </div>
               <span className="text-sm font-medium">Cart</span>
             </div>
-            <div className="ml-2 flex cursor-pointer items-center gap-x-1 py-2 px-4 hover:bg-gray-100">
+            <div
+              onClick={() => navigate("/profile")}
+              className="ml-2 flex cursor-pointer items-center gap-x-1 py-2 px-4 hover:bg-gray-100"
+            >
               <BsPersonCircle />
             </div>
           </div>

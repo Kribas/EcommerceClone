@@ -9,3 +9,9 @@ export type SignInUserType = {
   email: string;
   password: string;
 };
+
+export type AuthUserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
