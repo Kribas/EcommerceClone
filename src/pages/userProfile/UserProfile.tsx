@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import { useProductsStore } from "../../store";
 import { AiTwotoneMail } from "react-icons/ai";
 import { BsFillCartFill } from "react-icons/bs";
+import { MdFavorite } from "react-icons/md";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -60,6 +61,10 @@ const UserProfile = () => {
           </li>
           <li className="flex flex-col items-center justify-around">
             <BsFillCartFill className="text-blue-900" />
+            <div>{basketItems.length}</div>
+          </li>
+          <li className="flex flex-col items-center justify-around">
+            <MdFavorite className="text-blue-900" />
             <div>{basketItems.length}</div>
           </li>
         </ul>
