@@ -1,6 +1,8 @@
 import React from "react";
-import create from "zustand";
+import create, { StateCreator } from "zustand";
+import { PersistOption } from "zustand-persist/lib/configurePersist";
 import { AuthUserType } from "../types/AuthUserTypes";
+import { persist } from "zustand/middleware/persist";
 
 interface ProductType {
   id: number;
@@ -19,6 +21,11 @@ interface Store {
   showSearchBar: boolean;
   authUser: AuthUserType[];
 }
+
+type MyPersist = (
+  config: StateCreator<Store>,
+  options: PersistOption<Store>
+) => StateCreator<Store>;
 
 const useStore = create<Store>((set, get) => ({
   basketItems: [],

@@ -8,6 +8,7 @@ import axios from "axios";
 import { ProductListType } from "../types/ProductListType";
 import Cookies from "universal-cookie";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -31,6 +32,8 @@ const ProductList = () => {
   useEffect(() => {
     setShowSearchBar(true);
   }, []);
+
+  const navigate = useNavigate();
 
   const { data, isLoading } = useQuery(
     "products-data",
@@ -58,7 +61,7 @@ const ProductList = () => {
   const logOut = () => {
     // destroy the cookie
     cookies.remove("TOKEN", { path: "/" });
-    window.location.href = "/";
+    navigate("/");
   };
 
   return (

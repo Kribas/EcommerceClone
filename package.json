@@ -31,7 +31,8 @@
     "stripe": "^11.7.0",
     "universal-cookie": "^4.0.4",
     "yup": "^0.32.11",
-    "zustand": "^4.2.0"
+    "zustand": "^4.2.0",
+    "zustand-persist": "^0.4.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",

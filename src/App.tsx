@@ -32,7 +32,14 @@ function App() {
               }
             ></Route>
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/profile" element={<UserProfile />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoutes>
+                  <UserProfile />
+                </ProtectedRoutes>
+              }
+            />
             <Route
               path="/product/:productId"
               element={

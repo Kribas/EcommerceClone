@@ -14,8 +14,6 @@ const LoginPage = () => {
 
   const setAuthUser = useProductsStore((state: any) => state.setAuthUser);
 
-  const authUser = useProductsStore((state: any) => state.authUser);
-
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid Email")
@@ -31,12 +29,12 @@ const LoginPage = () => {
         cookies.set("TOKEN", data.token, {
           path: "/",
         });
-        // setAuthUser(data);
+        setAuthUser(data);
         toast.success(data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
         setTimeout(() => {
-          window.location.href = "/home";
+          navigate("/home");
         }, Number("2000"));
       },
       onError(error: any) {
