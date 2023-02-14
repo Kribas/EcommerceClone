@@ -12,12 +12,8 @@ interface ProductType {
   units: number;
 }
 
-const data = "https://fakestoreapi.com/products";
-
-const getSearchedProduct = useProductsStore(
-  (state: any) => state.getSearchedProduct
-);
-
-export const useProductsQuery = async (datas: any) => {
-  return useQuery("products-list", () => axios.get(data));
+export const useProductsQuery = (category: string) => {
+  return useQuery(category, () => {
+    return axios.get(`https://fakestoreapi.com/products/category/${category}`);
+  });
 };

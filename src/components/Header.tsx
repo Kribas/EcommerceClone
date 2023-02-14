@@ -122,16 +122,28 @@ const Header = () => {
               <span className="text-sm font-medium">Nepal</span>
             </div>
             <div className="flex gap-x-8">
-              <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100">
+              <span
+                onClick={() => navigate("/mensclothing")}
+                className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100"
+              >
                 Men's Clothing
               </span>
-              <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100">
+              <span
+                onClick={() => navigate("/jewellery")}
+                className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100"
+              >
                 Jewellery
               </span>
-              <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100">
+              <span
+                onClick={() => navigate("/womensclothing")}
+                className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100"
+              >
                 Women's Clothing
               </span>
-              <span className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100">
+              <span
+                onClick={() => navigate("/electronics")}
+                className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:bg-gray-100"
+              >
                 Electronics
               </span>
             </div>

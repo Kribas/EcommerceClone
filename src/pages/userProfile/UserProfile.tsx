@@ -5,14 +5,12 @@ import { AiTwotoneMail } from "react-icons/ai";
 import { BsFillCartFill } from "react-icons/bs";
 import { MdFavorite } from "react-icons/md";
 import Cookies from "universal-cookie";
-import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const authUser = useProductsStore((state: any) => state.authUser);
   const basketItems = useProductsStore((state: any) => state.basketItems);
 
   const cookies = new Cookies();
-  const navigate = useNavigate();
 
   const setShowSearchBar = useProductsStore(
     (state: any) => state.setShowSearchBar
@@ -45,7 +43,7 @@ const UserProfile = () => {
           <img
             className="object-cover object-center h-32"
             src="https://png.pngtree.com/png-vector/20201203/ourmid/pngtree-businessman-icon-vector-and-glyph-png-image_2499766.jpg"
-            alt="Woman looking front"
+            alt="Profile Image"
           />
         </div>
         <div className="text-center mt-2">
@@ -65,7 +63,7 @@ const UserProfile = () => {
           </li>
           <li className="flex flex-col items-center justify-around">
             <MdFavorite className="text-blue-900" />
-            <div>{basketItems.length}</div>
+            <div>0</div>
           </li>
         </ul>
         <div className="p-4 border-t mx-8 mt-2">
